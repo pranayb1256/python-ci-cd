@@ -1,24 +1,26 @@
-name: Python unit Tests
+name: Python Unit Tests
 
 on:
   push:
     branches:
-        -main
-jobs:
-    run-tests:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-            - name: Set up Python
-              uses: actions/setup-python@v2
-              with:
-                  python-version: '3.12'
+      - main
 
-            - name: Install dependencies
-              run: |
-                  python -m pip install --upgrade pip
-                  pip install -r requirements.txt
-            - name: Run Pytest
-              run: |
-                  pytest test_app.py
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        # This reads the requirements.txt file and installs pytest
+        run: pip install -r requirements.txt
+
+      - name: Run Pytest
+        # This executes our test file automatically
+        run: pytest
