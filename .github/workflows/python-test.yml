@@ -1,4 +1,4 @@
-name: Python Unit Tests
+name: Docker CI Pipeline
 
 on:
   push:
@@ -6,21 +6,18 @@ on:
       - main
 
 jobs:
-  run-tests:
+  build-and-test-container:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+      - name: Build Docker Image
+        # This runs the exact same build command you ran on your laptop!
+        run: docker build -t my-python-app .
 
-      - name: Install Dependencies
-        # This reads the requirements.txt file and installs pytest
-        run: pip install -r requirements.txt
-
-      - name: Run Pytest
-        # This executes our test file automatically
-        run: pytest
+      - name: Run Tests Inside Container
+        # We run the container, but override the default command to run 'pytest' 
+        # instead of running the normal app.py
+        run: docker run my-python-app pytest
