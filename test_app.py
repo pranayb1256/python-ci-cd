@@ -1,4 +1,4 @@
-from app import calculate_total
+from app.app import calculate_total
 
 def test_calculate_total():
     price = 100
